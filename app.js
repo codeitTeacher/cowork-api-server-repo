@@ -7,6 +7,10 @@ const app = express();
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('URL should contain /api/..');
+});
+
 app.get('/api/members', async (req, res) => {
   const { team } = req.query;
   if (team) {
@@ -40,7 +44,7 @@ app.post('/api/members', async (req, res) => {
 app.put('/api/members/:id', async (req, res) => {
   const { id } = req.params;
   const newInfo = req.body;
-  const arr = await Member.update(newInfo, { where: {} });
+  const arr = await Member.update(newInfo, { where: { id } });
   if (arr[0]) {
     res.send({ message: `${arr[0]} row(s) affected` });
   } else {
